@@ -13,10 +13,10 @@ function strcmp(a, b){
 $(document).ready(function() {
 	// Set jQuery UI Layout panes
   $('body').layout({
-    minSize: 50,
+    minSize: 45,
     maskContents: true,
     north: {
-      size: 55,
+      size: 45,
       spacing_open: 8,
       closable: false,
       resizable: false
