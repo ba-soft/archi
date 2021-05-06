@@ -159,4 +159,11 @@ $(document).ready(function() {
 	var tabProperties = $('#properties > table > tbody');
 	var tabPropertiesRows = tabProperties.children('tr');
 	tabPropertiesRows.sort(strcmp).appendTo(tabProperties);
+	
+	// Notify the root frameset of the new view id
+	const type = document.location.href.split('/').slice(-2, -1).pop();
+	if (type == "views") {
+		const viewId = document.location.href.split('/').pop().slice(0,-5);
+		parent.window.postMessage('view-id=' + viewId, '*');
+	}
 });

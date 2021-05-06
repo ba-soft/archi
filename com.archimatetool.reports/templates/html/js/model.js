@@ -63,4 +63,68 @@ $(document).ready(function() {
 		}
 		e.stopPropagation();
 	});
+	
+	
+	// *** DEEPLINKS ***
+
+	// Register a new onClick function
+	let $viewLinks = $("a[href][target='view']");
+	$viewLinks.on('click', function (event) {
+		const id = getIdFromHref(event.currentTarget.href);
+		setLocationForView(id);
+		openViewFromLocation(false);
+		event.stopPropagation();
+		return false;
+	});
+
+	// Load initial view id on page load
+	openViewFromLocation(true); 
+
+	function openViewFromLocation(expandModelTree) {
+		// Find matching view in model tree...
+		const targetId = getIdFromLocation();
+		const matchingLinks = $viewLinks.filter(function (index, element) {
+			return getIdFromHref(element.href) === targetId;
+		});
+		const link = matchingLinks[0];
+
+		if (link) {
+			// View found in model tree. Loading it in frame
+			const $link = $(link);
+			$("iframe[name='view']").attr('src', $link.attr('href'));
+
+			if (expandModelTree) {
+				let spans = [];
+				let $parentListItem = $link.parent().parent().parent();
+				while ($parentListItem[0].tagName === 'LI') {
+					spans.push($parentListItem.children().first());
+					$parentListItem = $parentListItem.parent().parent();
+				}
+				while (spans.length) {
+					spans.pop().click();
+				}
+			}
+		}
+	}
+
+	function setLocationForView(id) {
+		const url = new URL(window.location);
+		url.searchParams.set('view', id);
+		window.history.pushState({}, '', url);
+	}
+
+	function getIdFromHref(href) {
+		return href.split("/").pop().slice(0, -5);
+	}
+
+	function getIdFromLocation() {
+		const url = new URL(window.location);
+		return url.searchParams.get('view');
+	}
+
+	$(window).on('message', function (e) {
+			const id = e.originalEvent.data.split('=').pop();
+			setLocationForView(id);
+			//openViewFromLocation(true); 
+		});
 });
