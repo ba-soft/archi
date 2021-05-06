@@ -5,7 +5,7 @@ html {
 
 html.model > body {
   background:#ddd;
-  padding: 10px;
+  padding: 0;
 }
 
 html.frame > body {
@@ -20,7 +20,7 @@ ul, li {
   cursor: default;
 }
 li.tree-element, ul{
-	padding-left: 20px;
+	padding-left: 15px;
 }
 
 /* jQuery UI Layout style */
@@ -86,7 +86,20 @@ xmp {
 	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
 }
 
-/* ALasql console */
+/* Alasql console */
 #myconsole td {
     white-space: pre-wrap;
+}
+
+
+.navbar-default {
+    background-color: #0074D9;
+}
+
+.navbar-default .navbar-nav>li>a:hover {
+    background-color: rgb(255 255 255 / 20%);
+}
+
+.navbar-default .navbar-nav>li>a:focus {
+    background-color: rgb(255 255 255 / 0%);
 }
