@@ -17,7 +17,7 @@ $(document).ready(function() {
     maskContents: true,
     north: {
       size: 45,
-      spacing_open: 8,
+      spacing_open: 0,
       closable: false,
       resizable: false
     },
@@ -65,7 +65,7 @@ $(document).ready(function() {
 	});
 	
 	
-	// *** DEEPLINKS ***
+	// *** DEEP LINKS ***
 
 	// Register a new onClick function
 	let $viewLinks = $("a[href][target='view']");
