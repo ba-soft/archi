@@ -160,10 +160,46 @@ $(document).ready(function() {
 	var tabPropertiesRows = tabProperties.children('tr');
 	tabPropertiesRows.sort(strcmp).appendTo(tabProperties);
 	
-	// Notify the root frameset of the new view id
 	const type = document.location.href.split('/').slice(-2, -1).pop();
 	if (type == "views") {
+		// *** DEEP LINKS ***
+		// Notify the root frameset of the new view id
 		const viewId = document.location.href.split('/').pop().slice(0,-5);
 		parent.window.postMessage('view-id=' + viewId, '*');
+
+		// *** DIAGRAM ZOOM ***
+		initZoomSlider();
+	}
+
+	function initZoomSlider() {
+		const sliderHtml = ' \
+		<div class="row" id="zoomSlider"> \
+			<div class="col-xs-1" id="btnZoomOut"><span class="glyphicon glyphicon-minus"></span></div> \
+			<div class="col-xs-7"><input type="range" min="100" max="400" value="100" id="zoomRange"></div> \
+			<div class="col-xs-1" id="btnZoomIn"><span class="glyphicon glyphicon-plus"></span></div> \
+		</div>';
+		
+		document.getElementsByClassName("panel-heading")[0].innerHTML += sliderHtml;
+		var slider = document.getElementById("zoomRange");
+		let img = document.getElementsByClassName("diagram")[0];
+		let imgNativeWidth = img.width;
+
+		slider.oninput = function () {
+			img.style.maxWidth = this.value + "%";
+			img.style.width = (imgNativeWidth * this.value / 100) + "px";
+			imageMapResize();
+			window.focus();
+		}
+
+		const step = 10;
+
+		document.getElementById("btnZoomOut").onclick = function () {
+			slider.value = ((parseInt(slider.value)) - step);
+			$(slider).trigger("input");
+		}
+		document.getElementById("btnZoomIn").onclick = function () {
+			slider.value = ((parseInt(slider.value)) + step);
+			$(slider).trigger("input");
+		}
 	}
 });

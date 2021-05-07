@@ -91,7 +91,7 @@ xmp {
     white-space: pre-wrap;
 }
 
-
+/* Navbar color */
 .navbar-default {
     background-color: #0074D9;
 }
@@ -103,3 +103,22 @@ xmp {
 .navbar-default .navbar-nav>li>a:focus {
     background-color: rgb(255 255 255 / 0%);
 }
+
+/* Image Zoom Slider */
+.root-panel-heading {
+	position: relative;
+}
+
+#btnZoomIn, #btnZoomOut {
+	cursor: pointer;
+	padding: 0;
+}
+
+#zoomSlider {
+	width: 150px;
+    position: absolute;
+    top: 50%;
+    right: 0;
+    transform: translate(0, -50%);
+}
+
