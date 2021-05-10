@@ -179,27 +179,36 @@ $(document).ready(function() {
 			<div class="col-xs-1" id="btnZoomIn"><span class="glyphicon glyphicon-plus"></span></div> \
 		</div>';
 		
+		// Inject slider widget
 		document.getElementsByClassName("panel-heading")[0].innerHTML += sliderHtml;
+		
+		// Get reference to slider and image
 		var slider = document.getElementById("zoomRange");
 		let img = document.getElementsByClassName("diagram")[0];
 		let imgNativeWidth = img.width;
+		const step = 10;
 
-		slider.oninput = function () {
-			img.style.maxWidth = this.value + "%";
-			img.style.width = (imgNativeWidth * this.value / 100) + "px";
+		function setZoom() {
+			img.style.maxWidth = slider.value + "%";
+			img.style.width = (imgNativeWidth * slider.value / 100) + "px";
 			imageMapResize();
 			window.focus();
 		}
+		
+		// Internet Explorer doesn't trigger input events so we have to hook on the change event
+		slider.onchange = setZoom;
+		
+		// Other browser should work
+		slider.oninput = setZoom;
 
-		const step = 10;
-
+		// Register events on plus/minus buttons
 		document.getElementById("btnZoomOut").onclick = function () {
 			slider.value = ((parseInt(slider.value)) - step);
-			$(slider).trigger("input");
+			setZoom();
 		}
 		document.getElementById("btnZoomIn").onclick = function () {
 			slider.value = ((parseInt(slider.value)) + step);
-			$(slider).trigger("input");
+			setZoom();
 		}
 	}
 });
