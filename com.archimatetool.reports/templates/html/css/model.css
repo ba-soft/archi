@@ -93,15 +93,15 @@ xmp {
 
 /* Changing Navbar color can be done by uncommenting and adapting what follows */
 /*
-.navbar-default {
+.navbar {
     background-color: #017a54;
 }
 
-.navbar-default .navbar-nav>li>a:hover {
+.navbar .navbar-nav>li>a:hover {
     background-color: rgb(255 255 255 / 20%);
 }
 
-.navbar-default .navbar-nav>li>a:focus {
+.navbar .navbar-nav>li>a:focus {
     background-color: rgb(255 255 255 / 0%);
 }
 */
@@ -226,4 +226,9 @@ input[type=range]::-moz-range-thumb {
     right: 0;
     transform: translateY(-50%);
 	padding-right: 5px;
+}
+
+/* TREE MASKING */
+.hide-true {
+	display: none !important;
 }
