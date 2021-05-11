@@ -70,6 +70,16 @@ $(document).ready(function() {
 	// Set heigh of panels the first time
 	setRootPanelHeight();
 	
+	// Remove hidden nodes from the model tree
+	$('.hide-true').remove();
+	let topTreeFolders = $('.tree > li');
+	topTreeFolders.each(function(index) {
+		if (! $(this).find(' > ul > li').size()) {
+			$(this).remove();
+		}
+	});
+	
+	
 	// Setup modeltree
 	$('.tree li:has(ul)').addClass('parent_li').find(' > ul > li').hide();
 
@@ -170,14 +180,14 @@ function searchInViews() {
 	const filter = $('#tree-search').val();
 
 	// Hide all entries
-	listItems = $('ul.tree li');
+	listItems = $('.tree li');
 	listItems.hide();
 	listItems.find(' > span > i').addClass('glyphicon-triangle-right').removeClass('glyphicon-triangle-bottom');
 
 	// Is a filter set?
 	if (filter.length === 0) {
 		// No: show the top level entries ('Model Content' and 'Views') and stop here
-		$('ul.tree > li').show();
+		$('.tree > li').show();
 		$('#tree-search').removeClass('filtered');
 		document.querySelector('#tree-search').title = "";
 		return;
@@ -185,14 +195,13 @@ function searchInViews() {
 	
 	// Yes: set the 'filtered' flag and filter the model tree
 	$('#tree-search').addClass('filtered');
-	document.querySelector('#tree-search').title = "To unfilter, empty this field and validate with ENTER";
+	document.querySelector('#tree-search').title = "To clear filter, empty this field and press ENTER";
 
-	// Get the 'Views' entry and its content
-	//let viewsList = $('ul.tree > li:nth-child(2)');
-	let viewsList = $('ul.tree > li');
+	// Get model tree
+	let modelTree = $('.tree');
 
 	// Case insensitive search (a 'li' matches if itself or its children match)
-	let foundItems = viewsList.find("li").filter(function () {
+	let foundItems = modelTree.find("li").filter(function () {
 		let reg = new RegExp(filter, "ig");
 		let content = $(this).hasClass('tree-element') ? $(this) : $(this).find('li.tree-element');
 		return reg.test(content.text());
@@ -201,8 +210,4 @@ function searchInViews() {
 	// Show matching entries
 	foundItems.show();
 	foundItems.parent("ul").parent("li").find("> span > i").addClass('glyphicon-triangle-bottom').removeClass('glyphicon-triangle-right');
-	
-	// Show top level entries ('Model Content' and 'Views')
-	viewsList.show(400);
-	viewsList.find(' > span > i').addClass('glyphicon-triangle-bottom').removeClass('glyphicon-triangle-right');
 }
